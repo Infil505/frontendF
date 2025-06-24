@@ -1,11 +1,19 @@
 <template>
   <div class="surface-ground p-4 min-h-screen">
-    <div class="flex justify-between items-center mb-4">
-      <h2 class="text-2xl font-bold text-center">Listado de Ítems</h2>
-      <router-link :to="{ name: 'ItemCreate' }">
-        <Button label="Nuevo ítem" icon="pi pi-plus" class="p-button-sm" />
-      </router-link>
+    <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+      <h2 class="text-2xl font-bold text-center flex-grow text-center">Listado de Ítems</h2>
+
+      <div class="flex gap-2">
+        <router-link :to="{ name: 'ItemListByType' }">
+          <Button label="Por tipo" icon="pi pi-tags" class="p-button-outlined p-button-sm" />
+        </router-link>
+
+        <router-link :to="{ name: 'ItemCreate' }">
+          <Button label="Nuevo ítem" icon="pi pi-plus" class="p-button-sm" />
+        </router-link>
+      </div>
     </div>
+
 
     <div v-if="items.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-5">
       <Card v-for="item in items" :key="item.id" class="shadow-2 border-1 border-gray-200">
@@ -36,14 +44,8 @@
     </div>
 
     <!-- Paginador -->
-    <Paginator
-      v-if="pagination.total > pagination.perPage"
-      :rows="pagination.perPage"
-      :totalRecords="pagination.total"
-      :first="(pagination.page - 1) * pagination.perPage"
-      @page="onPageChange"
-      class="mt-4"
-    />
+    <Paginator v-if="pagination.total > pagination.perPage" :rows="pagination.perPage" :totalRecords="pagination.total"
+      :first="(pagination.page - 1) * pagination.perPage" @page="onPageChange" class="mt-4" />
 
     <div v-else-if="!items.length" class="text-center text-gray-500">
       <Message severity="info">No hay ítems para mostrar.</Message>
